@@ -10,20 +10,21 @@
 #import "PlayingCardDeck.h"
 
 @interface CardGameViewController ()
-
 @property (weak, nonatomic) IBOutlet UILabel *flipsLabel;
 @property (nonatomic) int flipCount;
 @property (strong, nonatomic) Deck *deck;
-
 @end
 
 @implementation CardGameViewController
 
-//- (instancetype)init {
-//    self = [self init];
-//    self.deck = [[PlayingCardDeck alloc] init];
-//    return self;
-//}
+- (Deck *)deck {
+    if (!_deck) _deck = [self createDeck];
+    return _deck;
+}
+
+- (Deck *)createDeck {
+    return self.deck = [[PlayingCardDeck alloc] init];
+}
 
 - (void)setFlipCount:(int)flipCount {
     _flipCount = flipCount;
@@ -35,8 +36,6 @@
     
     UIImage *cardImage;
     NSString *cardTitle;
-    
-    self.deck = [[PlayingCardDeck alloc] init];
     
     if ([sender.currentTitle length]) {
         cardImage = [UIImage imageNamed:@"cardback"];
