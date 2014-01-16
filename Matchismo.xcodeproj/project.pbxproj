@@ -97,11 +97,11 @@
 				6AB1BD421887AA6900DADECE /* Card.h */,
 				6AB1BD431887AA6900DADECE /* Card.m */,
 				6AB1BD461887AB7300DADECE /* PlayingCard.h */,
+				6AB1BD471887AB7300DADECE /* PlayingCard.m */,
 				6AB1BD491887AD3600DADECE /* Deck.h */,
 				6AB1BD4A1887AD3600DADECE /* Deck.m */,
 				6AB1BD4C1887AD4E00DADECE /* PlayingCardDeck.h */,
 				6AB1BD4D1887AD4E00DADECE /* PlayingCardDeck.m */,
-				6AB1BD471887AB7300DADECE /* PlayingCard.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
