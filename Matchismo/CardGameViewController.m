@@ -41,12 +41,19 @@
         cardImage = [UIImage imageNamed:@"cardback"];
         cardTitle = @"";
     } else {
-        cardImage = [UIImage imageNamed:@"cardfront"];
-        cardTitle = [self.deck drawRandomCard].contents;
+        Card *card = [self.deck drawRandomCard];
+        if (card) {
+            cardImage = [UIImage imageNamed:@"cardfront"];
+            cardTitle = card.contents;
+        } else {
+            sender.enabled = NO;
+        }
     }
-    [sender setTitle:cardTitle forState:UIControlStateNormal];
-    [sender setBackgroundImage:cardImage forState:UIControlStateNormal];
-    self.flipCount++;
+    if (cardImage && cardTitle) {
+        [sender setTitle:cardTitle forState:UIControlStateNormal];
+        [sender setBackgroundImage:cardImage forState:UIControlStateNormal];
+        self.flipCount++;
+    }
 }
 
 @end
