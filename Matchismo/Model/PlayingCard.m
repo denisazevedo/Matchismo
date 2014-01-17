@@ -10,11 +10,29 @@
 
 @implementation PlayingCard
 
+static const int MATCH_SCORE_RANK = 4;
+static const int MATCH_SCORE_SUIT = 1;
+
 //Overriding the Card's getter
 - (NSString *)contents {
     NSArray *rankStrings = [PlayingCard rankStrings];
     return [rankStrings[self.rank] stringByAppendingString:self.suit];
     //return [[PlayingCard rankStrings][self.rank] stringByAppendingString:self.suit];
+}
+
+//Override Card's match
+- (int)match:(NSArray *)otherCards {
+    int score = 0;
+    
+    if ([otherCards count] == 1) {
+        PlayingCard *otherCard = [otherCards firstObject];
+        if (otherCard.rank == self.rank) {
+            score = MATCH_SCORE_RANK;
+        } else if ([otherCard.suit isEqualToString:self.suit]) {
+            score = MATCH_SCORE_SUIT;
+        }
+    }
+    return score;
 }
 
 @synthesize suit = _suit;
