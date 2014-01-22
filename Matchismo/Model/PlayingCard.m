@@ -25,11 +25,14 @@ static const int MATCH_SCORE_SUIT = 1;
     int score = 0;
     
     if ([otherCards count] == 1) {
-        PlayingCard *otherCard = [otherCards firstObject];
-        if (otherCard.rank == self.rank) {
-            score = MATCH_SCORE_RANK;
-        } else if ([otherCard.suit isEqualToString:self.suit]) {
-            score = MATCH_SCORE_SUIT;
+        id card = [otherCards firstObject];
+        if ([card isKindOfClass:[PlayingCard class]]) { //Introspection to check class type
+            PlayingCard *otherCard = card;
+            if (otherCard.rank == self.rank) {
+                score = MATCH_SCORE_RANK;
+            } else if ([otherCard.suit isEqualToString:self.suit]) {
+                score = MATCH_SCORE_SUIT;
+            }
         }
     }
     return score;
