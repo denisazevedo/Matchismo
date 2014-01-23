@@ -39,6 +39,8 @@
 
 - (IBAction)touchDealButton:(id)sender {
     self.game = nil;
+    //Enable the match mode control - the game has not started yet
+    self.matchModeControl.enabled = YES;
     [self updateUI];
 }
 
@@ -46,6 +48,10 @@
 
     int choosenButtonIndex = [self.cardButtons indexOfObject:sender];
     [self.game chooseCardAtIndex:choosenButtonIndex];
+    
+    //Disable the match mode control - the game has started
+    self.matchModeControl.enabled = NO;
+    
     [self updateUI];
 }
 
