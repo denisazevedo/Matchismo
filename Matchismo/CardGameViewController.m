@@ -30,6 +30,11 @@
     return [[PlayingCardDeck alloc] init];
 }
 
+- (IBAction)touchDealButton:(id)sender {
+    self.game = nil;
+    [self updateUI];
+}
+
 - (IBAction)touchCardButton:(UIButton *)sender {
 
     int choosenButtonIndex = [self.cardButtons indexOfObject:sender];
@@ -43,8 +48,12 @@
         Card *card = [self.game cardAtIndex:cardButtonIndex];
         [cardButton setTitle:[self titleForCard:card] forState:UIControlStateNormal];
         [cardButton setBackgroundImage:[self backgroundForCard:card] forState:UIControlStateNormal];
-        if (card.isMatched) cardButton.enabled = NO;
+        cardButton.enabled = !card.isMatched;
     }
+    [self refreshScore];
+}
+
+- (void)refreshScore {
     self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d", self.game.score];
 }
 
