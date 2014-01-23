@@ -177,10 +177,23 @@
                                     <action selector="touchDealButton:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="GUB-2H-DZE"/>
                                 </connections>
                             </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="YN6-i3-eYO">
+                                <rect key="frame" x="138" y="436" width="45" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="2"/>
+                                    <segment title="3"/>
+                                </segments>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="changeMatchModeControl:" destination="vXZ-lx-hvc" eventType="valueChanged" id="Tmr-aS-ypW"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.50196081399917603" blue="0.25098040699958801" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <connections>
+                        <outlet property="matchModeControl" destination="YN6-i3-eYO" id="Aat-to-gwH"/>
                         <outlet property="scoreLabel" destination="uvx-gj-W84" id="yrh-Rm-YXU"/>
                         <outletCollection property="cardButtons" destination="mDd-Ii-ZG2" id="rYs-IH-Ysp"/>
                         <outletCollection property="cardButtons" destination="lNT-sb-Uoh" id="T7U-Ww-z53"/>

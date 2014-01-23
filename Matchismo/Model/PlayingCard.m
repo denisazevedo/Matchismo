@@ -12,6 +12,7 @@
 
 static const int MATCH_SCORE_RANK = 4;
 static const int MATCH_SCORE_SUIT = 1;
+static const int MATCH_DOUBLE_BONUS = 2;
 
 //Overriding the Card's getter
 - (NSString *)contents {
@@ -23,19 +24,35 @@ static const int MATCH_SCORE_SUIT = 1;
 //Override Card's match
 - (int)match:(NSArray *)otherCards {
     int score = 0;
-    
-    if ([otherCards count] == 1) {
-        id card = [otherCards firstObject];
-        if ([card isKindOfClass:[PlayingCard class]]) { //Introspection to check class type
-            PlayingCard *otherCard = card;
-            if (otherCard.rank == self.rank) {
-                score = MATCH_SCORE_RANK;
-            } else if ([otherCard.suit isEqualToString:self.suit]) {
-                score = MATCH_SCORE_SUIT;
+
+    int numOtherCards = [otherCards count];
+    if (numOtherCards) {
+        for (id card in otherCards) {
+            if ([card isKindOfClass:[PlayingCard class]]) {
+                PlayingCard *otherCard = card;
+                
+                if (otherCard.rank == self.rank) {
+                    score += MATCH_SCORE_RANK;
+                    NSLog(@"Match rank! %d", otherCard.rank);
+                } else if ([otherCard.suit isEqualToString:self.suit]) {
+                    score += MATCH_SCORE_SUIT;
+                    NSLog(@"Match suit! %@", otherCard.suit);
+                }
             }
         }
     }
+    if (numOtherCards > 1) {
+        int nextScore = [[otherCards firstObject] match:[otherCards subarrayWithRange:NSMakeRange(1, numOtherCards -1)]];
+        if (nextScore) {
+            score += nextScore * MATCH_DOUBLE_BONUS;
+            NSLog(@"Double bonus score! %d", score);
+        }
+    }
     return score;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"%d%@", self.rank, self.suit];
 }
 
 @synthesize suit = _suit;

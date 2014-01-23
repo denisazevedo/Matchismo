@@ -14,6 +14,7 @@
 @property (strong, nonatomic) CardMatchingGame *game;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *matchModeControl;
 @end
 
 @implementation CardGameViewController
@@ -22,12 +23,18 @@
     if (!_game) {
         _game = [[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count]
                                                   usingDeck:[self createDeck]];
+        [self changeMatchModeControl:self.matchModeControl];
     }
     return _game;
 }
 
 - (Deck *)createDeck {
     return [[PlayingCardDeck alloc] init];
+}
+
+- (IBAction)changeMatchModeControl:(UISegmentedControl *)sender {
+    self.game.numberOfMatchingCards = [[sender titleForSegmentAtIndex:sender.selectedSegmentIndex] integerValue];
+    NSLog(@"Number of matching cards selected: %d", self.game.numberOfMatchingCards);
 }
 
 - (IBAction)touchDealButton:(id)sender {
