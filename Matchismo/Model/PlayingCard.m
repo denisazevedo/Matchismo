@@ -24,6 +24,7 @@ static const int MATCH_DOUBLE_BONUS = 2;
 //Override Card's match
 - (int)match:(NSArray *)otherCards {
     int score = 0;
+    bool hasPreviousCardMatched = NO;
 
     int numOtherCards = [otherCards count];
     if (numOtherCards) {
@@ -33,9 +34,11 @@ static const int MATCH_DOUBLE_BONUS = 2;
                 
                 if (otherCard.rank == self.rank) {
                     score += MATCH_SCORE_RANK;
+                    hasPreviousCardMatched = YES;
                     NSLog(@"Match rank! %d", otherCard.rank);
                 } else if ([otherCard.suit isEqualToString:self.suit]) {
                     score += MATCH_SCORE_SUIT;
+                    hasPreviousCardMatched = YES;
                     NSLog(@"Match suit! %@", otherCard.suit);
                 }
             }
@@ -43,8 +46,10 @@ static const int MATCH_DOUBLE_BONUS = 2;
     }
     if (numOtherCards > 1) {
         int nextScore = [[otherCards firstObject] match:[otherCards subarrayWithRange:NSMakeRange(1, numOtherCards -1)]];
-        if (nextScore) {
-            score += nextScore * MATCH_DOUBLE_BONUS;
+        score += nextScore;
+        if (nextScore && hasPreviousCardMatched) {
+            //If more than 2 cards match, get a bonus!
+            score += MATCH_DOUBLE_BONUS;
             NSLog(@"Double bonus score! %d", score);
         }
     }
@@ -52,7 +57,7 @@ static const int MATCH_DOUBLE_BONUS = 2;
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%d%@", self.rank, self.suit];
+    return self.contents;
 }
 
 @synthesize suit = _suit;

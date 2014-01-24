@@ -10,7 +10,9 @@
 
 @interface CardMatchingGame ()
 @property (nonatomic, readwrite) NSInteger score; //readwrite to show we are redeclaring
+@property (nonatomic, readwrite) NSInteger lastScore; //readwrite to show we are redeclaring
 @property (nonatomic, strong) NSMutableArray *cards; //of Card
+@property (nonatomic, readwrite) NSArray *lastChosenCards;
 @end
 
 @implementation CardMatchingGame
@@ -53,41 +55,45 @@ static const int COST_TO_CHOOSE = 1;
     Card *card = [self.cards objectAtIndex:index];
     if (card.isChosen) {
         card.chosen = NO;
+        
+        //Remove from last chosen cards
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.chosen == true"];
+        self.lastChosenCards = [self.lastChosenCards filteredArrayUsingPredicate:predicate];
+
     } else {
         //Match against other chosen cards
-        
         NSMutableArray *chosenCards = [NSMutableArray array];
         
         for (Card *otherCard in self.cards) {
-            
             if (otherCard.isChosen && !otherCard.isMatched) {
                 [chosenCards addObject:otherCard];
             }
         }
+        
+        self.lastScore = 0;
+        self.lastChosenCards = [chosenCards arrayByAddingObject:card];
+        
         if ([chosenCards count] == self.numberOfMatchingCards - 1) {
             //Reaches the limit, let's match
             
             int matchScore = [card match:chosenCards];
             NSLog(@"Score of this match: %d", matchScore);
             if (matchScore) {
-                self.score += matchScore * MATCH_BONUS;
+                self.lastScore = matchScore * MATCH_BONUS;
                 card.matched = YES;
                 for (Card *chosenCard in chosenCards) {
                     chosenCard.matched = YES;
                 }
-                //NSLog(@"Match! %@ x %@", card.contents, otherCard.contents);
             } else {
-                self.score -= MISMATCH_PENALTY;
+                self.lastScore = - MISMATCH_PENALTY;
                 for (Card *chosenCard in chosenCards) {
                     chosenCard.chosen = NO;
                 }
-                //NSLog(@"No match :( %@ x %@", card.contents, otherCard.contents);
             }
-            
         }
 
         card.chosen = YES;
-        self.score -= COST_TO_CHOOSE;
+        self.score += self.lastScore - COST_TO_CHOOSE;
     }
 }
 

@@ -20,6 +20,8 @@
 - (Card *)cardAtIndex:(NSUInteger)index;
 
 @property (nonatomic, readonly) NSInteger score;
+@property (nonatomic, readonly) NSInteger lastScore;
 @property (nonatomic) NSUInteger numberOfMatchingCards;
+@property (nonatomic, readonly) NSArray *lastChosenCards;
 
 @end

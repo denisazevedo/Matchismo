@@ -15,9 +15,14 @@
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *matchModeControl;
+@property (weak, nonatomic) IBOutlet UILabel *flipResult;
 @end
 
 @implementation CardGameViewController
+
+- (void)viewDidLoad {
+    self.flipResult.text = @"";
+}
 
 - (CardMatchingGame *)game {
     if (!_game) {
@@ -41,6 +46,8 @@
     self.game = nil;
     //Enable the match mode control - the game has not started yet
     self.matchModeControl.enabled = YES;
+
+    self.flipResult.text = @"";
     [self updateUI];
 }
 
@@ -52,15 +59,36 @@
     //Disable the match mode control - the game has started
     self.matchModeControl.enabled = NO;
     
+    [self refreshFlipResult];
     [self updateUI];
 }
 
+- (void)refreshFlipResult {
+    
+    int lastScore = self.game.lastScore;
+    NSString *lastResult = @"";
+    
+    if ([self.game.lastChosenCards count]) {
+        lastResult = [self.game.lastChosenCards componentsJoinedByString:@""];
+        
+        if (lastScore > 0) {
+            lastResult = [NSString stringWithFormat:@"Matched %@ for %d points.", lastResult, lastScore];
+        } else if (lastScore < 0){
+            lastResult = [NSString stringWithFormat:@"%@ don't match! %d points penalty!", lastResult, lastScore];
+        }
+    }
+    self.flipResult.text = lastResult;
+}
+
 - (void)updateUI {
+    
     for (UIButton *cardButton in self.cardButtons) {
         int cardButtonIndex = [self.cardButtons indexOfObject:cardButton];
         Card *card = [self.game cardAtIndex:cardButtonIndex];
+        
         [cardButton setTitle:[self titleForCard:card] forState:UIControlStateNormal];
         [cardButton setBackgroundImage:[self backgroundForCard:card] forState:UIControlStateNormal];
+        
         cardButton.enabled = !card.isMatched;
     }
     [self refreshScore];
