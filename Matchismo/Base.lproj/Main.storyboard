@@ -436,18 +436,26 @@
                                 </connections>
                             </segmentedControl>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Flip result" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jDH-Fa-oPz">
-                                <rect key="frame" x="20" y="410" width="280" height="21"/>
+                                <rect key="frame" x="20" y="369" width="280" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                 <color key="textColor" red="0.80000000000000004" green="0.54509803921568623" blue="0.039215686274509803" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="0.0" continuous="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XYm-MN-ppH">
+                                <rect key="frame" x="18" y="398" width="284" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="changeHistorySlider:" destination="vXZ-lx-hvc" eventType="valueChanged" id="eGW-8b-Oey"/>
+                                </connections>
+                            </slider>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.50196081399917603" blue="0.25098040699958801" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
                         <outlet property="flipResult" destination="jDH-Fa-oPz" id="gBr-iW-nfd"/>
+                        <outlet property="historySlider" destination="XYm-MN-ppH" id="0QB-k1-XId"/>
                         <outlet property="matchModeControl" destination="YN6-i3-eYO" id="Aat-to-gwH"/>
                         <outlet property="scoreLabel" destination="uvx-gj-W84" id="yrh-Rm-YXU"/>
                         <outletCollection property="cardButtons" destination="MBY-Zd-Xp6" id="jBG-uK-ZIe"/>
