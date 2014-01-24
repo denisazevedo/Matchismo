@@ -22,6 +22,9 @@
 
 - (void)viewDidLoad {
     self.flipResult.text = @"";
+    //The 2 lines below are a workaround to set all borders to use the tint color
+    self.matchModeControl.selectedSegmentIndex = 1;
+    self.matchModeControl.selectedSegmentIndex = 0;
 }
 
 - (CardMatchingGame *)game {
