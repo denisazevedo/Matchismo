@@ -149,7 +149,7 @@
 }
 
 - (UIImage *)backgroundForCard:(Card *)card {
-    return [UIImage imageNamed:(card.chosen ? @"cardfront" : @"cardback")];
+    return [UIImage imageNamed:(card.chosen ? @"cardfront" : @"cardback-oil")];
 }
 
 @end
