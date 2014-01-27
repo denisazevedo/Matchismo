@@ -10,7 +10,9 @@
 
 @interface CardMatchingGame ()
 @property (nonatomic, readwrite) NSInteger score; //readwrite to show we are redeclaring
+@property (nonatomic, readwrite) NSInteger lastScore; //readwrite to show we are redeclaring
 @property (nonatomic, strong) NSMutableArray *cards; //of Card
+@property (nonatomic, readwrite) NSArray *lastChosenCards;
 @end
 
 @implementation CardMatchingGame
@@ -43,31 +45,55 @@ static const int COST_TO_CHOOSE = 1;
     return _cards;
 }
 
+- (NSUInteger)numberOfMatchingCards {
+    if (!_numberOfMatchingCards) _numberOfMatchingCards = 2;
+    return _numberOfMatchingCards;
+}
+
 - (void)chooseCardAtIndex:(NSUInteger)index {
     
     Card *card = [self.cards objectAtIndex:index];
     if (card.isChosen) {
         card.chosen = NO;
+        
+        //Remove from last chosen cards
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.chosen == true"];
+        self.lastChosenCards = [self.lastChosenCards filteredArrayUsingPredicate:predicate];
+
     } else {
         //Match against other chosen cards
+        NSMutableArray *chosenCards = [NSMutableArray array];
+        
         for (Card *otherCard in self.cards) {
             if (otherCard.isChosen && !otherCard.isMatched) {
-                int matchScore = [card match:@[otherCard]];
-                if (matchScore) {
-                    self.score += matchScore * MATCH_BONUS;
-                    card.matched = YES;
-                    otherCard.matched = YES;
-                    NSLog(@"Match! %@ x %@", card.contents, otherCard.contents);
-                } else {
-                    otherCard.chosen = NO;
-                    self.score -= MISMATCH_PENALTY;
-                    NSLog(@"No match... %@ x %@", card.contents, otherCard.contents);
-                }
-                break; //Can only choose 2 cards for now
+                [chosenCards addObject:otherCard];
             }
         }
+        
+        self.lastScore = 0;
+        self.lastChosenCards = [chosenCards arrayByAddingObject:card];
+        
+        if ([chosenCards count] == self.numberOfMatchingCards - 1) {
+            //Reaches the limit, let's match
+            
+            int matchScore = [card match:chosenCards];
+            NSLog(@"Score of this match: %d", matchScore);
+            if (matchScore) {
+                self.lastScore = matchScore * MATCH_BONUS;
+                card.matched = YES;
+                for (Card *chosenCard in chosenCards) {
+                    chosenCard.matched = YES;
+                }
+            } else {
+                self.lastScore = - MISMATCH_PENALTY;
+                for (Card *chosenCard in chosenCards) {
+                    chosenCard.chosen = NO;
+                }
+            }
+        }
+
         card.chosen = YES;
-        self.score -= COST_TO_CHOOSE;
+        self.score += self.lastScore - COST_TO_CHOOSE;
     }
 }
 
