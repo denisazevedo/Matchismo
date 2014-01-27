@@ -40,6 +40,11 @@
     return _game;
 }
 
+- (NSMutableArray *)flipResultHistory {
+    if (!_flipResultHistory) _flipResultHistory = [NSMutableArray array];
+    return _flipResultHistory;
+}
+
 - (Deck *)createDeck { //abstract
     return nil;
 }
