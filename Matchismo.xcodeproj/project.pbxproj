@@ -115,14 +115,14 @@
 				6AB1BD431887AA6900DADECE /* Card.m */,
 				6AB1BD461887AB7300DADECE /* PlayingCard.h */,
 				6A0D30D91896FC6600D96792 /* SetCard.h */,
-				6A0D30DA1896FC6600D96792 /* SetCard.m */,
 				6AB1BD471887AB7300DADECE /* PlayingCard.m */,
+				6A0D30DA1896FC6600D96792 /* SetCard.m */,
 				6AB1BD491887AD3600DADECE /* Deck.h */,
 				6AB1BD4A1887AD3600DADECE /* Deck.m */,
 				6AB1BD4C1887AD4E00DADECE /* PlayingCardDeck.h */,
+				6AB1BD4D1887AD4E00DADECE /* PlayingCardDeck.m */,
 				6A0D30DC1896FCF200D96792 /* SetCardDeck.h */,
 				6A0D30DD1896FCF200D96792 /* SetCardDeck.m */,
-				6AB1BD4D1887AD4E00DADECE /* PlayingCardDeck.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";

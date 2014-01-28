@@ -10,4 +10,15 @@
 
 @interface SetCard : Card
 
+@property (nonatomic)NSUInteger number;
+@property (nonatomic, strong)NSString *symbol;
+@property (nonatomic, strong)NSString *shading;
+@property (nonatomic, strong)NSString *color;
+
++ (NSUInteger)minNumber;
++ (NSUInteger)maxNumber;
++ (NSArray *)validSymbols;
++ (NSArray *)validShadings;
++ (NSArray *)validColors;
+
 @end
