@@ -19,4 +19,9 @@
     return [[PlayingCardDeck alloc] init];
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.game.numberOfMatchingCards = 2;
+}
+
 @end

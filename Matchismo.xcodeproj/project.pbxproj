@@ -162,10 +162,10 @@
 			children = (
 				6AC872601887491B00435510 /* Main.storyboard */,
 				6AC872631887491B00435510 /* CardGameViewController.h */,
-				6AC872641887491B00435510 /* CardGameViewController.m */,
 				6A570C2B1892F51E0000CF34 /* PlayingCardGameViewController.h */,
-				6A570C2C1892F51E0000CF34 /* PlayingCardGameViewController.m */,
 				6A0D30DF1896FD5100D96792 /* SetCardGameViewController.h */,
+				6AC872641887491B00435510 /* CardGameViewController.m */,
+				6A570C2C1892F51E0000CF34 /* PlayingCardGameViewController.m */,
 				6A0D30E01896FD5100D96792 /* SetCardGameViewController.m */,
 				6AB1BD451887AA7600DADECE /* Model */,
 				6AC872661887491B00435510 /* Images.xcassets */,

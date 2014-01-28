@@ -10,11 +10,10 @@
 #import "CardMatchingGame.h"
 
 @interface CardGameViewController ()
-@property (strong, nonatomic) CardMatchingGame *game;
+//@property (strong, nonatomic) CardMatchingGame *game;
 @property (strong, nonatomic) NSMutableArray *flipResultHistory;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
-//@property (weak, nonatomic) IBOutlet UISegmentedControl *matchModeControl;
 @property (weak, nonatomic) IBOutlet UILabel *flipResult;
 @property (weak, nonatomic) IBOutlet UISlider *historySlider;
 @end
@@ -23,20 +22,13 @@
 
 - (void)viewDidLoad {
     [self updateFlipResult:@""];
-    
     self.historySlider.enabled = NO;
-
-    //The 2 lines below are a workaround to set all borders to use the tint color
-//    self.matchModeControl.selectedSegmentIndex = 1;
-//    self.matchModeControl.selectedSegmentIndex = 0;
 }
 
 - (CardMatchingGame *)game {
     if (!_game) {
         _game = [[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count]
                                                   usingDeck:[self createDeck]];
-        //[self changeMatchModeControl:self.matchModeControl];
-        _game.numberOfMatchingCards = 2;
     }
     return _game;
 }
@@ -50,18 +42,10 @@
     return nil;
 }
 
-//- (IBAction)changeMatchModeControl:(UISegmentedControl *)sender {
-//    self.game.numberOfMatchingCards = [[sender titleForSegmentAtIndex:sender.selectedSegmentIndex] integerValue];
-//    NSLog(@"Number of matching cards selected: %d", self.game.numberOfMatchingCards);
-//}
-
 - (IBAction)touchDealButton:(id)sender {
     
     self.game = nil;
     
-    //Enable the match mode control - the game has not started yet
-//    self.matchModeControl.enabled = YES;
-
     self.flipResultHistory = nil; //Cleans the history
     [self updateFlipResult:@""]; //Cleans the result
     self.historySlider.maximumValue = 0;
@@ -74,9 +58,6 @@
 
     int choosenButtonIndex = [self.cardButtons indexOfObject:sender];
     [self.game chooseCardAtIndex:choosenButtonIndex];
-    
-    //Disable the match mode control - the game has started
-//    self.matchModeControl.enabled = NO;
     
     [self refreshFlipResult];
     [self updateUI];
@@ -132,7 +113,7 @@
         int cardButtonIndex = [self.cardButtons indexOfObject:cardButton];
         Card *card = [self.game cardAtIndex:cardButtonIndex];
         
-        [cardButton setTitle:[self titleForCard:card] forState:UIControlStateNormal];
+        [cardButton setAttributedTitle:[self titleForCard:card] forState:UIControlStateNormal];
         [cardButton setBackgroundImage:[self backgroundForCard:card] forState:UIControlStateNormal];
         
         cardButton.enabled = !card.isMatched;
@@ -144,8 +125,8 @@
     self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d", self.game.score];
 }
 
-- (NSString *)titleForCard:(Card *)card {
-    return card.chosen ? card.contents : @"";
+- (NSAttributedString *)titleForCard:(Card *)card {
+    return [[NSAttributedString alloc] initWithString:(card.chosen ? card.contents : @"")];
 }
 
 - (UIImage *)backgroundForCard:(Card *)card {
