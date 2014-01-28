@@ -14,7 +14,7 @@
 @property (strong, nonatomic) NSMutableArray *flipResultHistory;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *matchModeControl;
+//@property (weak, nonatomic) IBOutlet UISegmentedControl *matchModeControl;
 @property (weak, nonatomic) IBOutlet UILabel *flipResult;
 @property (weak, nonatomic) IBOutlet UISlider *historySlider;
 @end
@@ -27,15 +27,16 @@
     self.historySlider.enabled = NO;
 
     //The 2 lines below are a workaround to set all borders to use the tint color
-    self.matchModeControl.selectedSegmentIndex = 1;
-    self.matchModeControl.selectedSegmentIndex = 0;
+//    self.matchModeControl.selectedSegmentIndex = 1;
+//    self.matchModeControl.selectedSegmentIndex = 0;
 }
 
 - (CardMatchingGame *)game {
     if (!_game) {
         _game = [[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count]
                                                   usingDeck:[self createDeck]];
-        [self changeMatchModeControl:self.matchModeControl];
+        //[self changeMatchModeControl:self.matchModeControl];
+        _game.numberOfMatchingCards = 2;
     }
     return _game;
 }
@@ -49,17 +50,17 @@
     return nil;
 }
 
-- (IBAction)changeMatchModeControl:(UISegmentedControl *)sender {
-    self.game.numberOfMatchingCards = [[sender titleForSegmentAtIndex:sender.selectedSegmentIndex] integerValue];
-    NSLog(@"Number of matching cards selected: %d", self.game.numberOfMatchingCards);
-}
+//- (IBAction)changeMatchModeControl:(UISegmentedControl *)sender {
+//    self.game.numberOfMatchingCards = [[sender titleForSegmentAtIndex:sender.selectedSegmentIndex] integerValue];
+//    NSLog(@"Number of matching cards selected: %d", self.game.numberOfMatchingCards);
+//}
 
 - (IBAction)touchDealButton:(id)sender {
     
     self.game = nil;
     
     //Enable the match mode control - the game has not started yet
-    self.matchModeControl.enabled = YES;
+//    self.matchModeControl.enabled = YES;
 
     self.flipResultHistory = nil; //Cleans the history
     [self updateFlipResult:@""]; //Cleans the result
@@ -75,7 +76,7 @@
     [self.game chooseCardAtIndex:choosenButtonIndex];
     
     //Disable the match mode control - the game has started
-    self.matchModeControl.enabled = NO;
+//    self.matchModeControl.enabled = NO;
     
     [self refreshFlipResult];
     [self updateUI];
