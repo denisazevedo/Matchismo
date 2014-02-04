@@ -44,13 +44,16 @@
 
 - (IBAction)touchDealButton:(id)sender {
     
+    NSUInteger numberOfMatchingCards = self.game.numberOfMatchingCards; //keep current number of matching cards
     self.game = nil;
+    self.game.numberOfMatchingCards = numberOfMatchingCards; //restore number of matching cards
     
     self.flipResultHistory = nil; //Cleans the history
     [self updateFlipResult:[[NSAttributedString alloc] initWithString:@""]]; //Cleans the result
     self.historySlider.maximumValue = 0;
     self.historySlider.enabled = NO;
     
+//    self.game.numberOfMatchingCards = self.numberOfMatchingCards;
     [self updateUI];
 }
 

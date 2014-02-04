@@ -22,6 +22,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.game.numberOfMatchingCards = 2;
+    [self updateUI];
 }
 
 - (void)refreshFlipResult {
