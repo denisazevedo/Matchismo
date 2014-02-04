@@ -53,7 +53,6 @@
     self.historySlider.maximumValue = 0;
     self.historySlider.enabled = NO;
     
-//    self.game.numberOfMatchingCards = self.numberOfMatchingCards;
     [self updateUI];
 }
 
@@ -74,7 +73,7 @@
     
     if ([self.flipResultHistory count]) {
         self.flipResult.alpha = (intValue > 0) ? 0.7 : 1.0;
-        self.flipResult.text = [self.flipResultHistory objectAtIndex:intValue];
+        self.flipResult.attributedText = [self.flipResultHistory objectAtIndex:intValue];
     }
     
 }
