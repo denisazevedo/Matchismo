@@ -126,7 +126,8 @@
 }
 
 - (NSAttributedString *)titleForCard:(Card *)card {
-    return [[NSAttributedString alloc] initWithString:(card.chosen ? card.contents : @"")];
+    return [[NSAttributedString alloc] initWithString:(card.chosen ? card.contents : @"")
+                                           attributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 
 - (UIImage *)backgroundForCard:(Card *)card {
