@@ -26,6 +26,31 @@
     [self updateUI];
 }
 
+- (void)refreshFlipResult {
+    
+    int lastScore = self.game.lastScore;
+    NSMutableAttributedString *lastCards = [[NSMutableAttributedString alloc] initWithString:@""];
+    NSMutableAttributedString *lastResult = [[NSMutableAttributedString alloc] initWithString:@""];
+    
+    if ([self.game.lastChosenCards count]) {
+        for (Card *card in self.game.lastChosenCards) {
+            [lastCards appendAttributedString:[self titleForCard:card]];
+            [lastCards appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
+        }
+        
+        if (lastScore > 0) {
+            lastResult = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Matched for %d points.", lastScore]];
+            [lastResult insertAttributedString:lastCards atIndex:8];
+        } else if (lastScore < 0){
+            lastResult = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"don't match! %d points penalty!", lastScore]];
+            [lastResult insertAttributedString:lastCards atIndex:0];
+        } else { //lastScore == 0
+            lastResult = [lastCards mutableCopy];
+        }
+    }
+    [self updateFlipResult:lastResult];
+}
+
 - (NSAttributedString *)titleForCard:(Card *)card {
     
     NSString *symbol = @"?";

@@ -19,8 +19,13 @@
 //for subclasses
 - (Deck *)createDeck; //abstract
 
+//protected
+//for subclasses
+- (void)refreshFlipResult; //abstract
+
 - (void)updateUI;
 - (NSAttributedString *)titleForCard:(Card *)card;
 - (UIImage *)backgroundForCard:(Card *)card;
+- (void) updateFlipResult:(NSAttributedString *) result;
 
 @end

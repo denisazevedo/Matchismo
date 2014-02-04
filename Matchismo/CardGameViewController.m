@@ -21,7 +21,7 @@
 @implementation CardGameViewController
 
 - (void)viewDidLoad {
-    [self updateFlipResult:@""];
+    [self updateFlipResult:[[NSAttributedString alloc] initWithString:@""]];
     self.historySlider.enabled = NO;
 }
 
@@ -47,7 +47,7 @@
     self.game = nil;
     
     self.flipResultHistory = nil; //Cleans the history
-    [self updateFlipResult:@""]; //Cleans the result
+    [self updateFlipResult:[[NSAttributedString alloc] initWithString:@""]]; //Cleans the result
     self.historySlider.maximumValue = 0;
     self.historySlider.enabled = NO;
     
@@ -76,26 +76,12 @@
     
 }
 
-- (void)refreshFlipResult {
-    
-    int lastScore = self.game.lastScore;
-    NSString *lastResult = @"";
-    
-    if ([self.game.lastChosenCards count]) {
-        lastResult = [self.game.lastChosenCards componentsJoinedByString:@""];
-        
-        if (lastScore > 0) {
-            lastResult = [NSString stringWithFormat:@"Matched %@ for %d points.", lastResult, lastScore];
-        } else if (lastScore < 0){
-            lastResult = [NSString stringWithFormat:@"%@ don't match! %d points penalty!", lastResult, lastScore];
-        }
-    }
-    [self updateFlipResult:lastResult];
+- (void)refreshFlipResult { //abstract
 }
 
-- (void) updateFlipResult:(NSString *) result {
+- (void) updateFlipResult:(NSAttributedString *) result {
     
-    if (![@"" isEqualToString:result]) { //Don't save empty strings in the history
+    if (![@"" isEqualToString:[result string]]) { //Don't save empty strings in the history
         [self.flipResultHistory insertObject:result atIndex:0];
         
         self.historySlider.value = 0; //Bring back to default position
@@ -104,7 +90,7 @@
         //NSLog(@"Slider max value: %f", self.historySlider.maximumValue);
     }
     self.flipResult.alpha = 1.0;
-    self.flipResult.text = result;
+    self.flipResult.attributedText = result;
 }
 
 - (void)updateUI {

@@ -24,4 +24,21 @@
     self.game.numberOfMatchingCards = 2;
 }
 
+- (void)refreshFlipResult {
+    
+    int lastScore = self.game.lastScore;
+    NSString *lastResult = @"";
+    
+    if ([self.game.lastChosenCards count]) {
+        lastResult = [self.game.lastChosenCards componentsJoinedByString:@""];
+        
+        if (lastScore > 0) {
+            lastResult = [NSString stringWithFormat:@"Matched %@ for %d points.", lastResult, lastScore];
+        } else if (lastScore < 0){
+            lastResult = [NSString stringWithFormat:@"%@ don't match! %d points penalty!", lastResult, lastScore];
+        }
+    }
+    [self updateFlipResult:[[NSAttributedString alloc] initWithString:lastResult]];
+}
+
 @end
