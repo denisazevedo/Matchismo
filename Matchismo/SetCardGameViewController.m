@@ -65,9 +65,7 @@
 }
 
 - (UIImage *)backgroundForCard:(Card *)card {
-    //TODO Use a new image for chosen cards
-    //    return [UIImage imageNamed:card.chosen ? @"setCardSelected" : @"setCard"];
-        return [UIImage imageNamed:@"cardfront"];
+    return [UIImage imageNamed:card.chosen ? @"cardfront-selected" : @"cardfront"];
 }
 
 @end
