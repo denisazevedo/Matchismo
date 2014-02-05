@@ -8,10 +8,11 @@
 
 #import "CardGameViewController.h"
 #import "CardMatchingGame.h"
+#import "HistoryViewController.h"
 
 @interface CardGameViewController ()
 //@property (strong, nonatomic) CardMatchingGame *game;
-@property (strong, nonatomic) NSMutableArray *flipResultHistory;
+@property (strong, nonatomic) NSMutableArray *flipResultHistory; //Of NSMutableAttributedString
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (weak, nonatomic) IBOutlet UILabel *flipResult;
@@ -23,6 +24,15 @@
 - (void)viewDidLoad {
     [self updateFlipResult:[[NSAttributedString alloc] initWithString:@""]];
     self.historySlider.enabled = NO;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"Show History"]) {
+        if ([segue.destinationViewController isKindOfClass:[HistoryViewController class]]) {
+            HistoryViewController *controller = (HistoryViewController *)segue.destinationViewController;
+            controller.history = self.flipResultHistory;
+        }
+    }
 }
 
 - (CardMatchingGame *)game {
