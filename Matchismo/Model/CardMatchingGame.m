@@ -77,7 +77,7 @@ static const int COST_TO_CHOOSE = 1;
             //Reaches the limit, let's match
             
             int matchScore = [card match:chosenCards];
-            NSLog(@"Score of this match: %d", matchScore);
+//            NSLog(@"Score of this match: %d", matchScore); //Debug
             if (matchScore) {
                 self.lastScore = matchScore * MATCH_BONUS;
                 card.matched = YES;

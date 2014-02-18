@@ -23,6 +23,8 @@
 //for subclasses
 - (void)refreshFlipResult; //abstract
 
+@property (strong, nonatomic) NSString *gameType;
+
 - (void)updateUI;
 - (NSAttributedString *)titleForCard:(Card *)card;
 - (UIImage *)backgroundForCard:(Card *)card;

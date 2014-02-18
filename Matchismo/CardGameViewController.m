@@ -9,9 +9,11 @@
 #import "CardGameViewController.h"
 #import "CardMatchingGame.h"
 #import "HistoryViewController.h"
+#import "GameResult.h"
 
 @interface CardGameViewController ()
 //@property (strong, nonatomic) CardMatchingGame *game;
+@property (strong, nonatomic) GameResult *gameResult;
 @property (strong, nonatomic) NSMutableArray *flipResultHistory; //Of NSMutableAttributedString
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
@@ -31,6 +33,14 @@
             controller.history = self.flipResultHistory;
         }
     }
+}
+
+- (GameResult *)gameResult {
+    if (!_gameResult) {
+        _gameResult = [[GameResult alloc] init];
+        _gameResult.gameType = self.gameType;
+    }
+    return _gameResult;
 }
 
 - (CardMatchingGame *)game {
@@ -54,6 +64,7 @@
     
     NSUInteger numberOfMatchingCards = self.game.numberOfMatchingCards; //keep current number of matching cards
     self.game = nil;
+    self.gameResult = nil;
     self.game.numberOfMatchingCards = numberOfMatchingCards; //restore number of matching cards
     
     self.flipResultHistory = nil; //Cleans the history
@@ -101,6 +112,7 @@
 
 - (void)refreshScore {
     self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d", self.game.score];
+    self.gameResult.score = self.game.score;
 }
 
 - (NSAttributedString *)titleForCard:(Card *)card {

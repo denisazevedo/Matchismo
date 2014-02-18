@@ -17,6 +17,7 @@
 @implementation SetCardGameViewController
 
 - (Deck *)createDeck {
+    self.gameType = @"Set Game";
     return [[SetCardDeck alloc] init];
 }
 
