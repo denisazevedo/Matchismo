@@ -11,16 +11,21 @@
 
 @interface ScoresViewController ()
 
-@property (weak, nonatomic) IBOutlet UITextView *scoresTextView;
 @property (strong, nonatomic) NSArray *scores;
+//Outlets
+@property (weak, nonatomic) IBOutlet UITextView *scoresTextView;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *orderControl;
 
 @end
 
 @implementation ScoresViewController
 
 - (void)updateUI {
+
+    NSSortDescriptor *sortOrder = [self getSortDescriptor];
+    self.scores = [self.scores sortedArrayUsingDescriptors:@[sortOrder]];
+
     NSString *text = @"";
-//    NSArray *sortedScores = [self.scores sortedArrayUsingSelector:@selector(compareStartDate:)];
     for (GameResult *result in self.scores) {
         text = [text stringByAppendingString:[self stringFromResult:result]];
     }
@@ -49,6 +54,29 @@
                                            timeStyle:NSDateFormatterShortStyle],
             round(result.duration)];
 }
+
+- (NSSortDescriptor *)getSortDescriptor {
+    
+    NSString *key = @"start";
+    if (self.orderControl.selectedSegmentIndex == 0) { //Date
+    } else if (self.orderControl.selectedSegmentIndex == 1) { //Score
+        //self.scores = [self.scores sortedArrayUsingSelector:@selector(compareScore:)];
+        key = @"score";
+    } else if (self.orderControl.selectedSegmentIndex == 2) { //Duration
+        //self.scores = [self.scores sortedArrayUsingSelector:@selector(compareDuration:)];
+        key = @"duration";
+    }
+    NSSortDescriptor* sortOrder = [NSSortDescriptor sortDescriptorWithKey:key ascending: NO];
+    return sortOrder;
+}
+
+#pragma mark - Actions
+
+- (IBAction)changeOrder:(UISegmentedControl *)sender {
+    [self updateUI];
+}
+
+#pragma mark - ViewController Lifecycle
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
