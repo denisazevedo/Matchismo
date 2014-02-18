@@ -20,11 +20,22 @@
 
 - (void)updateUI {
     NSString *text = @"";
-    NSArray *sortedScores = [self.scores sortedArrayUsingSelector:@selector(compareStartDate:)];
-    for (GameResult *result in sortedScores) {
+//    NSArray *sortedScores = [self.scores sortedArrayUsingSelector:@selector(compareStartDate:)];
+    for (GameResult *result in self.scores) {
         text = [text stringByAppendingString:[self stringFromResult:result]];
     }
     self.scoresTextView.text = text;
+    NSArray *sortedScores = [self.scores sortedArrayUsingSelector:@selector(compareScore:)];
+    [self changeScore:[sortedScores firstObject] toColor:[UIColor redColor]];
+    [self changeScore:[sortedScores lastObject] toColor:[UIColor greenColor]];
+    sortedScores = [self.scores sortedArrayUsingSelector:@selector(compareDuration:)];
+    [self changeScore:[sortedScores firstObject] toColor:[UIColor purpleColor]];
+    [self changeScore:[sortedScores lastObject] toColor:[UIColor blueColor]];
+}
+
+- (void)changeScore:(GameResult *)result toColor:(UIColor *)color {
+    NSRange range = [self.scoresTextView.text rangeOfString:[self stringFromResult:result]];
+    [self.scoresTextView.textStorage addAttribute:NSForegroundColorAttributeName value:color range:range];
 }
 
 - (NSString *)stringFromResult:(GameResult *)result {

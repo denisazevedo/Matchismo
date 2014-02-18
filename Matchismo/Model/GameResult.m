@@ -65,11 +65,18 @@
     return !([self.start compare:result.start] == NSOrderedDescending);
 }
 
+- (NSComparisonResult)compareScore:(GameResult *)result {
+    return [@(self.score) compare:@(result.score)];
+}
+
+- (NSComparisonResult)compareDuration:(GameResult *)result {
+    return [@(self.duration) compare:@(result.duration)];
+}
+
 #pragma mark - Synchronize
 
 - (void)synchronize {
 
-    NSLog(@"Synchronize - start: %@", [self.start description]);
     //User defaults
     NSMutableDictionary *gameResultsFromUserDefaults = [[[NSUserDefaults standardUserDefaults] dictionaryForKey:ALL_RESULTS_KEY] mutableCopy];
     
