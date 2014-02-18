@@ -17,10 +17,6 @@
 
 @implementation CardMatchingGame
 
-static const int MISMATCH_PENALTY = 2;
-static const int MATCH_BONUS = 4;
-static const int COST_TO_CHOOSE = 1;
-
 //Designated initializer
 - (instancetype)initWithCardCount:(NSUInteger)count
                         usingDeck:(Deck *)deck {
@@ -79,13 +75,13 @@ static const int COST_TO_CHOOSE = 1;
             int matchScore = [card match:chosenCards];
 //            NSLog(@"Score of this match: %d", matchScore); //Debug
             if (matchScore) {
-                self.lastScore = matchScore * MATCH_BONUS;
+                self.lastScore = matchScore * self.matchBonus;
                 card.matched = YES;
                 for (Card *chosenCard in chosenCards) {
                     chosenCard.matched = YES;
                 }
             } else {
-                self.lastScore = - MISMATCH_PENALTY;
+                self.lastScore = -self.mismatchPenalty;
                 for (Card *chosenCard in chosenCards) {
                     chosenCard.chosen = NO;
                 }
@@ -93,7 +89,7 @@ static const int COST_TO_CHOOSE = 1;
         }
 
         card.chosen = YES;
-        self.score += self.lastScore - COST_TO_CHOOSE;
+        self.score += self.lastScore - self.flipCost;
     }
 }
 

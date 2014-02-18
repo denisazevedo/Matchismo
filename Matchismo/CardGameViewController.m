@@ -10,11 +10,14 @@
 #import "CardMatchingGame.h"
 #import "HistoryViewController.h"
 #import "GameResult.h"
+#import "GameSettings.h"
 
 @interface CardGameViewController ()
 //@property (strong, nonatomic) CardMatchingGame *game;
 @property (strong, nonatomic) GameResult *gameResult;
+@property (strong, nonatomic) GameSettings *gameSettings;
 @property (strong, nonatomic) NSMutableArray *flipResultHistory; //Of NSMutableAttributedString
+//Outlets
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (weak, nonatomic) IBOutlet UILabel *flipResult;
@@ -22,7 +25,15 @@
 
 @implementation CardGameViewController
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.game.matchBonus = self.gameSettings.matchBonus;
+    self.game.mismatchPenalty = self.gameSettings.mismatchPenalty;
+    self.game.flipCost = self.gameSettings.flipCost;
+}
+
 - (void)viewDidLoad {
+    [super viewDidLoad];
     [self updateFlipResult:[[NSAttributedString alloc] initWithString:@""]];
 }
 
@@ -33,6 +44,13 @@
             controller.history = self.flipResultHistory;
         }
     }
+}
+
+- (GameSettings *)gameSettings {
+    if (!_gameSettings) {
+        _gameSettings = [[GameSettings alloc] init];
+    }
+    return _gameSettings;
 }
 
 - (GameResult *)gameResult {
@@ -47,6 +65,9 @@
     if (!_game) {
         _game = [[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count]
                                                   usingDeck:[self createDeck]];
+        _game.matchBonus = self.gameSettings.matchBonus;
+        _game.mismatchPenalty = self.gameSettings.mismatchPenalty;
+        _game.flipCost = self.gameSettings.flipCost;
     }
     return _game;
 }
